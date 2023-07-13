@@ -1,0 +1,50 @@
+button {
+  background-color: rgb(185, 182, 141);
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 auto;
+  padding: 10px 40px;
+  font-size: 18px;
+  border: none;
+  transition: 0.2s;
+  color: #41403b;
+}
+button:hover {
+  background-color: rgb(121, 119, 92);
+  transition: 0.3s;
+  color: aliceblue;
+}
+.form .req {
+  border: 1px solid red;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form input,
+.form textarea {
+  padding: 5px 10px;
+  border: 1px solid #c4c3b5;
+  border-radius: 5px;
+  font-size: 18px;
+  color: #5f5e5a;
+  width: 100%;
+}
+.form textarea {
+  min-height: 80px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.form input:focus,
+.form textarea:focus {
+  outline: none;
+}
+
+.form input::placeholder,
+.form textarea::placeholder {
+  color: #d6d6d3;
+}

@@ -1,0 +1,103 @@
+.App {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.add-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  color: #41403b8e;
+  cursor: pointer;
+  transition: 0.2s;
+  position: absolute;
+  bottom: 40px;
+  right: 20px;
+}
+
+.add-note:hover {
+  color: #41403b;
+  transition: 0.2s;
+  transform: scale(1.1);
+}
+
+.add-note-icon {
+  font-size: 40px;
+}
+
+.singleNoteFull {
+  width: 50%;
+  margin-left: 20px;
+  background-color: antiquewhite;
+  border: 0px solid transparent;
+  overflow: hidden;
+  border-radius: 0 10px 10px 0;
+  padding: 0;
+  transition: 0.2s;
+  position: relative;
+  border: 1px solid #00000028;
+  padding: 15px 25px;
+  transform: scaleX(0.97);
+}
+.singleNoteFull h2 {
+  padding-bottom: 3px;
+  display: inline-block;
+  border-bottom: 1px solid #41403b;
+  margin-bottom: 15px;
+  opacity: 0;
+  transition: 0.8s;
+  font-size: 24px;
+}
+
+.singleNoteFull.content .close-icon {
+  transition: 0.2s;
+  opacity: 1;
+}
+
+.singleNoteFull.hide {
+  display: none;
+}
+
+.singleNoteFull p {
+  font-size: 14px;
+  opacity: 0;
+  transition: 0.8s;
+}
+
+.singleNoteFull.content {
+  transition: 0.8s;
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.singleNoteFull.content h2 {
+}
+.singleNoteFull.content p {
+}
+.singleNoteFull.content h2,
+.singleNoteFull.content p {
+  opacity: 1;
+  transition: 0.4s;
+}
+
+.close-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: rgba(255, 0, 0, 0.312);
+  opacity: 0;
+  transition: 0.2s;
+  font-size: 18px;
+  transform: rotate(45deg);
+}
+
+.close-icon:hover {
+  transition: 0.2s;
+  transform: scale(1.1) rotate(45deg);
+  color: red;
+  cursor: pointer;
+}
