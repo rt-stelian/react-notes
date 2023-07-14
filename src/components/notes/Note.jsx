@@ -1,30 +1,32 @@
-import { TbPin, TbPinFilled } from "react-icons/tb"
+import Pin from "../UI/Pin"
 import styles from "./Note.module.css"
 import { useState } from "react"
 
-const Note = ({ isSelected, onClick, noteTitle, noteText, fullNoteText }) => {
-  const [pin, setPin] = useState(false)
-
-  const pinHandler = () => (!pin ? setPin(true) : setPin(false))
-
+const Note = ({
+  noteItem,
+  isSelected,
+  onClick,
+  noteTitle,
+  noteText,
+  fullNoteText,
+  itemId,
+  setPinDate,
+  pined,
+}) => {
   return (
     <div
       onClick={onClick}
       onMouseOver={onClick}
-      className={`${styles.singleNote} ${
+      className={`${styles.singleNote} ${pined ? styles.pinedNote : ""} ${
         isSelected && fullNoteText.length ? styles.active : ""
       }`}>
       <h2>{noteTitle}</h2>
       <p>{noteText}</p>
-      <TbPin
-        onClick={pinHandler}
-        title='pine note'
-        className={`${styles.pin} ${pin ? styles.hide : ""}`}
-      />
-      <TbPinFilled
-        onClick={pinHandler}
-        title='unpin note'
-        className={`${styles.pined} ${!pin ? styles.hide : ""}`}
+      <Pin
+        setPinDate={setPinDate}
+        noteItem={noteItem}
+        itemId={itemId}
+        id={itemId}
       />
     </div>
   )

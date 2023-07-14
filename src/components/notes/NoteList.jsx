@@ -1,23 +1,49 @@
+import { useState } from "react"
 import Note from "./Note"
 import styles from "./NoteList.module.css"
 const NoteList = ({
   sendContent,
   noteList,
-  singleNoteClass,
   isSelected,
+  setNoteList,
   noteText,
 }) => {
+  const setPinDate = (id, date) => {
+    setNoteList((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === id ? { ...note, pinedAt: date } : note
+      )
+    )
+  }
+
+  function compareItems(a, b) {
+    if (a.pinedAt && b.pinedAt) {
+      return b.pinedAt - a.pinedAt
+    }
+    if (a.pinedAt) {
+      return -1
+    }
+    if (b.pinedAt) {
+      return 1
+    }
+    return b.createDate - a.createDate
+  }
+  const sortedNoteList = [...noteList].sort(compareItems)
   return (
     <div className={styles.noteList}>
-      {noteList.map((noteItem, index) => (
+      {sortedNoteList.map((noteItem, index) => (
         <Note
           fullNoteText={noteText}
           isSelected={isSelected === noteItem.title}
-          singleNoteClass={singleNoteClass}
           onClick={() => sendContent(noteItem.title, noteItem.text)}
-          key={index}
+          key={noteItem.id}
+          itemId={noteItem.id}
           noteText={noteItem.text}
           noteTitle={noteItem.title}
+          createdAt={noteItem.createDate}
+          noteItem={noteItem}
+          setPinDate={setPinDate}
+          pined={noteItem.pinedAt ? noteItem.pinedAt : null}
         />
       ))}
     </div>

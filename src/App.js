@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { v4 as uuidv4 } from "uuid"
 import "./App.css"
 import NoteList from "./components/notes/NoteList"
 import FormContainer from "./components/modal-form/FormContainer"
@@ -17,15 +18,11 @@ function App() {
     const newNote = {
       title: noteTitle,
       text: noteText,
+      id: uuidv4(),
+      createDate: new Date().getTime(),
     }
     setNoteList([...noteList, newNote])
   }
-  console.log(
-    noteList.map((item, index) => {
-      return item
-    })
-  )
-
   const openFormHandler = () => {
     setHide(false)
   }
@@ -76,6 +73,7 @@ function App() {
         sendContent={sendContent}
         noteList={noteList}
         isSelected={singleNoteClass}
+        setNoteList={setNoteList}
       />
       <AddNote onClick={openFormHandler} />
       <SingleNoteFull

@@ -7,6 +7,10 @@
   transition: 0.2s;
 }
 
+.singleNote.pinedNote{
+  background-color: rgba(232, 231, 177, 0.36);
+}
+
 .singleNote:hover {
   transition: 0.2s;
   background-color: antiquewhite;
@@ -27,18 +31,26 @@
   transition: 0.2s;
 }
 
-.pin {
+.pinItem,
+.pinedItem {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: 0.2s;
+}
+
+.pinItem {
   opacity: 0.5;
 }
 
-.pin:hover {
+.pinItem:hover {
   transition: 0.2s;
   opacity: 1;
   transform: scale(1.1);
 }
 
-.pin.hide,
-.pined.hide {
+.pinItem.hide,
+.pinedItem.hide {
   display: none;
 }
 
