@@ -22,6 +22,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 50%;
 }
 
 .form input,
@@ -34,7 +35,8 @@ button:hover {
   width: 100%;
 }
 .form textarea {
-  min-height: 80px;
+  min-height: 150px;
+  max-height: 300px;
   resize: vertical;
   font-size: 14px;
 }

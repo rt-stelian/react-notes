@@ -14,15 +14,42 @@ function App() {
   const [sendedTitle, setSendedTitle] = useState("")
   const [sendedId, setSendedId] = useState("")
   const [singleNoteClass, setSingleNoteClass] = useState("")
+  const [editText, setEditText] = useState({
+    title: "",
+    text: "",
+    startEdit: false,
+    editId: "",
+  })
+
+  useEffect(() => {
+    // console.log(editText)
+  }, [editText])
+
+  const editTextHandler = (title, text, editId) => {
+    setEditText({ text: text, title: title, startEdit: true, editId: editId })
+    openFormHandler()
+  }
 
   const addNoteHandler = (noteTitle, noteText) => {
-    const newNote = {
-      title: noteTitle,
-      text: noteText,
-      id: uuidv4(),
-      createDate: new Date().getTime(),
+    const existingNote = noteList.find(
+      (note) => note.createDate === editText.editId
+    )
+
+    if (existingNote) {
+      existingNote.title = noteTitle
+      existingNote.text = noteText
+      setSendedTitle(noteTitle)
+      setSendedText(noteText)
+      setEditText({ startEdit: false })
+    } else {
+      const newNote = {
+        title: noteTitle,
+        text: noteText,
+        id: uuidv4(),
+        createDate: new Date().getTime(),
+      }
+      setNoteList([...noteList, newNote])
     }
-    setNoteList([...noteList, newNote])
   }
 
   const deleteNoteHandler = (id, createdAt) => {
@@ -50,6 +77,7 @@ function App() {
     setSendedTitle("")
     setSendedId("")
   }
+
   useEffect(() => {
     if (!hide) {
       const timer = setTimeout(() => {
@@ -61,6 +89,8 @@ function App() {
 
   const clickHandler = () => {
     setTimeOut(true)
+    setEditText({ title: "", text: "", startEdit: false, editId: "" })
+    console.log(editText)
   }
 
   useEffect(() => {
@@ -75,6 +105,8 @@ function App() {
   return (
     <div className='App'>
       <FormContainer
+        setEditText={setEditText}
+        editText={editText}
         hide={hide}
         setTimeOut={setTimeOut}
         addNote={addNoteHandler}
@@ -92,6 +124,8 @@ function App() {
       />
       <AddNote onClick={openFormHandler} />
       <SingleNoteFull
+        editTextHandler={editTextHandler}
+        editText={editText}
         sendedId={sendedId}
         iconTitle={"close this note"}
         onClick={closeSingleNote}

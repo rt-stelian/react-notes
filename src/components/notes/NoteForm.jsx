@@ -1,9 +1,23 @@
 import styles from "./NoteForm.module.css"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Button from "../UI/Button"
 
-const NoteForm = ({ addNote, setTimeOut, inputClassName }) => {
+const NoteForm = ({ addNote, setTimeOut, inputClassName, editText }) => {
   const [inputText, setInputText] = useState({ inputTitle: "", inputText: "" })
+
+  useEffect(() => {
+    if (editText.startEdit) {
+      setInputText({
+        inputTitle: editText.title,
+        inputText: editText.text,
+      })
+    } else {
+      setInputText({
+        inputTitle: "",
+        inputText: "",
+      })
+    }
+  }, [editText])
 
   function handleInputChange(text, name) {
     setInputText({
@@ -56,7 +70,7 @@ const NoteForm = ({ addNote, setTimeOut, inputClassName }) => {
         />
       </label>
       <Button className={styles.button} type='submit'>
-        add
+        {editText.startEdit ? "edit" : "add"}
       </Button>
     </form>
   )

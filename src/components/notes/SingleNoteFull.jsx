@@ -2,7 +2,14 @@ import { RiEditLine } from "react-icons/ri"
 import { TbCirclePlus } from "react-icons/tb"
 import styles from "./singleNoteFull.module.css"
 
-const SingleNoteFull = ({ iconTitle, onClick, noteTitle, noteText }) => {
+const SingleNoteFull = ({
+  iconTitle,
+  onClick,
+  noteTitle,
+  noteText,
+  sendedId,
+  editTextHandler,
+}) => {
   return (
     <div
       className={`${styles.singleNoteFull}  ${
@@ -10,7 +17,11 @@ const SingleNoteFull = ({ iconTitle, onClick, noteTitle, noteText }) => {
       }`}>
       <h2>{noteTitle}</h2>
       <p>{noteText}</p>
-      <RiEditLine className={styles.editIcon} title='edit note' />
+      <RiEditLine
+        className={styles.editIcon}
+        title='edit note'
+        onClick={() => editTextHandler(noteTitle, noteText, sendedId)}
+      />
       <TbCirclePlus
         onClick={onClick}
         title={iconTitle}

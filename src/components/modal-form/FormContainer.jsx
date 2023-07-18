@@ -8,13 +8,19 @@ const FormContainer = ({
   hide,
   clickHandler,
   timeOut,
+  editText,
+  setEditText,
 }) => {
   return (
     <div
-      className={`${styles.formContainer}  ${
-        timeOut ? styles.hideContainer : ""
-      } ${hide ? styles.closeContainer : ""}`}>
+      className={`${styles.formContainer} ${
+        editText.startEdit ? styles.editing : ""
+      }  ${timeOut ? styles.hideContainer : ""} ${
+        hide ? styles.closeContainer : ""
+      }`}>
       <NoteForm
+        setEditText={setEditText}
+        editText={editText}
         inputClassName={styles.inputText}
         addNote={addNote}
         setTimeOut={setTimeOut}
