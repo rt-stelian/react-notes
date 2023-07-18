@@ -1,7 +1,7 @@
 .singleNote {
   margin: 0 0 10px 20px;
   border: 1px solid #00000028;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 5px 10px;
   position: relative;
   transition: 0.2s;
@@ -11,14 +11,21 @@
   background-color: rgba(232, 231, 177, 0.36);
 }
 
-.singleNote:hover {
+.singleNote.mouseOver {
   transition: 0.2s;
-  background-color: antiquewhite;
+  background-color: rgba(250, 235, 215, 0.353);
+  cursor: pointer;
 }
 
 .singleNote.active {
   background-color: antiquewhite;
-  border-radius: 10px 0 0 10px;
+}
+
+.deleteNote{
+  position: absolute;
+  top: 10px;
+  right: 40px;
+  transition: 0.2s;
 }
 
 .pin,
@@ -38,15 +45,19 @@
   right: 0;
   transition: 0.2s;
 }
-
+.deleteNote,
 .pinItem {
   opacity: 0.5;
 }
-
+.deleteNote:hover,
 .pinItem:hover {
   transition: 0.2s;
   opacity: 1;
   transform: scale(1.1);
+}
+
+.deleteNote:hover{
+  color: red;
 }
 
 .pinItem.hide,
@@ -69,7 +80,7 @@
 .singleNote p {
   transition: 0.3s;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 14px;
+  white-space:nowrap;
 }

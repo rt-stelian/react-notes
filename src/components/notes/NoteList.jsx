@@ -7,6 +7,8 @@ const NoteList = ({
   isSelected,
   setNoteList,
   noteText,
+  deleteNoteHandler,
+  closeSingleNote,
 }) => {
   const setPinDate = (id, date) => {
     setNoteList((prevNotes) =>
@@ -31,11 +33,13 @@ const NoteList = ({
   const sortedNoteList = [...noteList].sort(compareItems)
   return (
     <div className={styles.noteList}>
-      {sortedNoteList.map((noteItem, index) => (
+      {sortedNoteList.map((noteItem) => (
         <Note
+          closeSingleNote={closeSingleNote}
+          deleteNoteHandler={deleteNoteHandler}
           fullNoteText={noteText}
-          isSelected={isSelected === noteItem.title}
-          onClick={() => sendContent(noteItem.title, noteItem.text)}
+          isSelected={isSelected === noteItem.createDate}
+          sendContent={sendContent}
           key={noteItem.id}
           itemId={noteItem.id}
           noteText={noteItem.text}

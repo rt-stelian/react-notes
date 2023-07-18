@@ -12,6 +12,7 @@ function App() {
   const [timeOut, setTimeOut] = useState(false)
   const [sendedText, setSendedText] = useState("")
   const [sendedTitle, setSendedTitle] = useState("")
+  const [sendedId, setSendedId] = useState("")
   const [singleNoteClass, setSingleNoteClass] = useState("")
 
   const addNoteHandler = (noteTitle, noteText) => {
@@ -23,19 +24,31 @@ function App() {
     }
     setNoteList([...noteList, newNote])
   }
+
+  const deleteNoteHandler = (id, createdAt) => {
+    setNoteList(noteList.filter((note) => note.id !== id))
+    if (sendedId === createdAt) {
+      closeSingleNote()
+    }
+  }
+
   const openFormHandler = () => {
     setHide(false)
   }
 
-  const sendContent = (noteTitle, noteText) => {
-    setSendedText(noteText)
-    setSendedTitle(noteTitle)
-    setSingleNoteClass(noteTitle)
+  const sendContent = (createdDate, noteTitle, noteText, id, ev) => {
+    if (ev.target.classList.contains("single-note")) {
+      setSendedText(noteText)
+      setSendedTitle(noteTitle)
+      setSendedId(id)
+      setSingleNoteClass(createdDate)
+    }
   }
 
   const closeSingleNote = () => {
     setSendedText("")
     setSendedTitle("")
+    setSendedId("")
   }
   useEffect(() => {
     if (!hide) {
@@ -69,6 +82,8 @@ function App() {
         timeOut={timeOut}
       />
       <NoteList
+        closeSingleNote={closeSingleNote}
+        deleteNoteHandler={deleteNoteHandler}
         noteText={sendedText}
         sendContent={sendContent}
         noteList={noteList}
@@ -77,6 +92,7 @@ function App() {
       />
       <AddNote onClick={openFormHandler} />
       <SingleNoteFull
+        sendedId={sendedId}
         iconTitle={"close this note"}
         onClick={closeSingleNote}
         noteText={sendedText}

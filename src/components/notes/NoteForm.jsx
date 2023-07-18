@@ -6,7 +6,10 @@ const NoteForm = ({ addNote, setTimeOut, inputClassName }) => {
   const [inputText, setInputText] = useState({ inputTitle: "", inputText: "" })
 
   function handleInputChange(text, name) {
-    setInputText({ ...inputText, [name]: text.target.value })
+    setInputText({
+      ...inputText,
+      [name]: text.target.value,
+    })
   }
 
   const emptyInputs = () => {
@@ -19,7 +22,6 @@ const NoteForm = ({ addNote, setTimeOut, inputClassName }) => {
       return false
     }
   }
-
   const submitFormHandler = (ev) => {
     ev.preventDefault()
     setInputText({
@@ -45,6 +47,7 @@ const NoteForm = ({ addNote, setTimeOut, inputClassName }) => {
       </label>
       <label>
         <textarea
+          id='textarea'
           className={inputClassName}
           type='text'
           value={inputText.inputText}
