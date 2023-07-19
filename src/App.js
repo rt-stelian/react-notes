@@ -22,12 +22,19 @@ function App() {
   })
 
   useEffect(() => {
-    // console.log(editText)
-  }, [editText])
+    const storedNotes = localStorage.getItem("notes")
+    if (storedNotes) {
+      setNoteList(JSON.parse(storedNotes))
+    }
+  }, [])
 
   const editTextHandler = (title, text, editId) => {
     setEditText({ text: text, title: title, startEdit: true, editId: editId })
     openFormHandler()
+  }
+
+  const saveNoteToLocalStorage = (noteData) => {
+    localStorage.setItem("notes", JSON.stringify(noteData))
   }
 
   const addNoteHandler = (noteTitle, noteText) => {
@@ -41,6 +48,7 @@ function App() {
       setSendedTitle(noteTitle)
       setSendedText(noteText)
       setEditText({ startEdit: false })
+      saveNoteToLocalStorage(noteList)
     } else {
       const newNote = {
         title: noteTitle,
@@ -48,12 +56,16 @@ function App() {
         id: uuidv4(),
         createDate: new Date().getTime(),
       }
-      setNoteList([...noteList, newNote])
+      const updatedList = [...noteList, newNote]
+      setNoteList(updatedList)
+      saveNoteToLocalStorage(updatedList)
     }
   }
 
   const deleteNoteHandler = (id, createdAt) => {
-    setNoteList(noteList.filter((note) => note.id !== id))
+    const updatedList = noteList.filter((note) => note.id !== id)
+    setNoteList(updatedList)
+    saveNoteToLocalStorage(updatedList)
     if (sendedId === createdAt) {
       closeSingleNote()
     }
@@ -90,7 +102,6 @@ function App() {
   const clickHandler = () => {
     setTimeOut(true)
     setEditText({ title: "", text: "", startEdit: false, editId: "" })
-    console.log(editText)
   }
 
   useEffect(() => {
@@ -122,7 +133,12 @@ function App() {
         isSelected={singleNoteClass}
         setNoteList={setNoteList}
       />
-      <AddNote onClick={openFormHandler} />
+      <AddNote
+        sendedText={sendedText}
+        noteList={noteList}
+        onClick={openFormHandler}
+        className='add-note'
+      />
       <SingleNoteFull
         editTextHandler={editTextHandler}
         editText={editText}

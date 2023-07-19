@@ -12,16 +12,41 @@
   cursor: pointer;
   transition: 0.2s;
   position: fixed;
-  bottom: 40px;
-  right: 20px;
 }
 
-.add-note:hover {
+.add-note:hover{
   color: #41403b;
   transition: 0.2s;
-  transform: scale(1.1);
+}
+
+.add-center:hover {
+  transform: scale(1.1) translateX(50%) translateY(50%);
+}
+ 
+.add-bottom:hover{
+  transform: scale(1.1)
+}
+
+.add-bottom .add-note-icon {
+
+  transition: 0.8s;
+  font-size: 40px;
 }
 
 .add-note-icon {
-  font-size: 40px;
+  transition: 0.8s;
+  font-size: 80px;
+}
+
+.add-center {  transition: bottom 0.8s, right 0.8s, transformX 0.8s, transformY 0.8s, transformScale 0.2s;
+  bottom: 50%;
+  right: 50%;
+  transform: translateX(50%) translateY(50%) scale(1);
+}
+
+.add-bottom {
+  transition: bottom 0.8s, right 0.8s, transformX 0.8s, transformY 0.8s, transformScale 0.2s;
+  bottom: 40px;
+  right: 20px;
+  transform: translateX(0) translateY(0) scale(1);
 }

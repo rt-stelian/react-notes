@@ -1,24 +1,16 @@
-import { useState } from "react"
 import Note from "./Note"
 import styles from "./NoteList.module.css"
-const NoteList = ({
-  sendContent,
-  noteList,
-  isSelected,
-  setNoteList,
-  noteText,
-  deleteNoteHandler,
-  closeSingleNote,
-}) => {
+
+const NoteList = (props) => {
   const setPinDate = (id, date) => {
-    setNoteList((prevNotes) =>
+    props.setNoteList((prevNotes) =>
       prevNotes.map((note) =>
         note.id === id ? { ...note, pinedAt: date } : note
       )
     )
   }
 
-  function compareItems(a, b) {
+  const compareItems = (a, b) => {
     if (a.pinedAt && b.pinedAt) {
       return b.pinedAt - a.pinedAt
     }
@@ -30,24 +22,26 @@ const NoteList = ({
     }
     return b.createDate - a.createDate
   }
-  const sortedNoteList = [...noteList].sort(compareItems)
+
+  const sortedNoteList = [...props.noteList].sort(compareItems)
+
   return (
     <div className={styles.noteList}>
-      {sortedNoteList.map((noteItem) => (
+      {sortedNoteList.map(({ id, text, title, createDate, pinedAt }) => (
         <Note
-          closeSingleNote={closeSingleNote}
-          deleteNoteHandler={deleteNoteHandler}
-          fullNoteText={noteText}
-          isSelected={isSelected === noteItem.createDate}
-          sendContent={sendContent}
-          key={noteItem.id}
-          itemId={noteItem.id}
-          noteText={noteItem.text}
-          noteTitle={noteItem.title}
-          createdAt={noteItem.createDate}
-          noteItem={noteItem}
+          closeSingleNote={props.closeSingleNote}
+          deleteNoteHandler={props.deleteNoteHandler}
+          fullNoteText={props.noteText}
+          isSelected={props.isSelected === createDate}
+          sendContent={props.sendContent}
+          key={id}
+          itemId={id}
+          noteText={text}
+          noteTitle={title}
+          createdAt={createDate}
+          noteItem={{ id, text, title, createDate, pinedAt }}
           setPinDate={setPinDate}
-          pined={noteItem.pinedAt ? noteItem.pinedAt : null}
+          pined={pinedAt ? pinedAt : null}
         />
       ))}
     </div>

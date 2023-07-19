@@ -5,3 +5,7 @@
   width: 35%;
   overflow-y: auto;
 }
+
+.notePined {
+  transition: transform 0.3s ease-in-out;
+}

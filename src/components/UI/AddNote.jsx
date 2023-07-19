@@ -1,9 +1,15 @@
 import { TbDeviceIpadPlus } from "react-icons/tb"
-const AddNote = ({ onClick }) => {
+const AddNote = ({ noteList, onClick, className, sendedText }) => {
   return (
-    <div className='add-note' onClick={onClick}>
+    <div
+      onClick={onClick}
+      className={`${
+        noteList.length && sendedText !== ""
+          ? className + " add-bottom"
+          : className + " add-center"
+      }`}>
       <TbDeviceIpadPlus className='add-note-icon' />
-      <span>new note</span>
+      <span>add new note</span>
     </div>
   )
 }

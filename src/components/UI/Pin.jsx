@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { TbPin, TbPinFilled } from "react-icons/tb"
 import styles from "../notes/Note.module.css"
-const Pin = ({ id, setPinDate, itemId, noteItem }) => {
+const Pin = ({ setPinDate, itemId }) => {
   const [pin, setPin] = useState(false)
 
   const pinHandler = () => {

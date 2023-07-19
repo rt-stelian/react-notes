@@ -26,10 +26,8 @@ const Note = ({
       onMouseOver={() => setMouseOver(true)}
       onMouseLeave={() => setMouseOver(false)}
       className={`${"single-note"}  ${styles.singleNote} ${
-        mouseOver ? styles.mouseOver : ""
-      } ${pined ? styles.pinedNote : ""} ${
-        isSelected && fullNoteText.length ? styles.active : ""
-      }`}>
+        pined ? styles.pinedNote : ""
+      } ${isSelected && fullNoteText.length ? styles.active : ""}`}>
       <h2>{noteTitle}</h2>
       <p>{noteText}</p>
       <RiDeleteBin2Line
