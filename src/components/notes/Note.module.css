@@ -4,8 +4,7 @@
   border-radius: 5px;
   padding: 5px 10px;
   position: relative;
-    transition: 0.3s ;
-  
+  transition: transform 0.3s ease;
   
 }
 .pinedNote {

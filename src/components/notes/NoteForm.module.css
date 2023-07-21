@@ -18,6 +18,17 @@ button:hover {
   border: 1px solid red;
 }
 
+.buttonEditing{
+  background-color: rgb(255, 175, 175);
+  border: 1px solid #000;
+  transition: .2s;
+}
+.buttonEditing:hover{
+  background-color: rgb(175, 255, 192);
+  border: 1px solid #000;
+  color: #000;
+}
+
 .form {
   display: flex;
   flex-direction: column;

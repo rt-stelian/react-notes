@@ -1,9 +1,9 @@
 .noteList {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   width: 35%;
   overflow-y: auto;
+  flex-direction: column-reverse;
 }
 
 .notePined {

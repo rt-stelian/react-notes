@@ -1,32 +1,37 @@
 import { RiDeleteBin2Line } from "react-icons/ri"
 import Pin from "../UI/Pin"
 import styles from "./Note.module.css"
-import { useState } from "react"
+
 
 const Note = ({
-  noteItem,
   isSelected,
   sendContent,
   noteTitle,
   noteText,
   fullNoteText,
   itemId,
-  setPinDate,
-  pined,
+  pinedOrder,
   deleteNoteHandler,
+  order,
+  pinnedCount,
+  setPinnedCount,
+  listLength,
+  setOrder,
+  updatePinOrder,
+  itemPinedOrder,
   createdAt,
+  noteList,
+  saveNoteToLocalStorage,
 }) => {
-  const [mouseOver, setMouseOver] = useState(false)
-
   return (
     <div
+      data='single-note'
+      style={pinedOrder ? { order: pinedOrder + 1 } : { order: order }}
       onClick={(ev) =>
-        sendContent(createdAt, noteTitle, noteText, createdAt, ev)
+        sendContent(noteTitle, noteText, ev, createdAt, createdAt)
       }
-      onMouseOver={() => setMouseOver(true)}
-      onMouseLeave={() => setMouseOver(false)}
       className={`${"single-note"}  ${styles.singleNote} ${
-        pined ? styles.pinedNote : ""
+        pinedOrder ? styles.pinedNote : ""
       } ${isSelected && fullNoteText.length ? styles.active : ""}`}>
       <h2>{noteTitle}</h2>
       <p>{noteText}</p>
@@ -37,10 +42,15 @@ const Note = ({
         onClick={() => deleteNoteHandler(itemId, createdAt)}
       />
       <Pin
-        setPinDate={setPinDate}
-        noteItem={noteItem}
+        saveNoteToLocalStorage={saveNoteToLocalStorage}
+        noteList={noteList}
+        updatePinOrder={updatePinOrder}
+        listLength={listLength}
+        pinnedCount={pinnedCount}
+        setPinnedCount={setPinnedCount}
+        setOrder={setOrder}
         itemId={itemId}
-        id={itemId}
+        itemPinedOrder={itemPinedOrder}
       />
     </div>
   )

@@ -8,18 +8,21 @@ import SingleNoteFull from "./components/notes/SingleNoteFull"
 
 function App() {
   const [noteList, setNoteList] = useState([])
-  const [hide, setHide] = useState(false)
-  const [timeOut, setTimeOut] = useState(false)
+  const [formClosing, setFormClosing] = useState(false)
   const [sendedText, setSendedText] = useState("")
   const [sendedTitle, setSendedTitle] = useState("")
   const [sendedId, setSendedId] = useState("")
-  const [singleNoteClass, setSingleNoteClass] = useState("")
+  const [isSelected, setIsSelected] = useState("")
   const [editText, setEditText] = useState({
     title: "",
     text: "",
     startEdit: false,
     editId: "",
   })
+
+  const listLength = noteList.length
+
+  const [pinnedCount, setPinnedCount] = useState(0)
 
   useEffect(() => {
     const storedNotes = localStorage.getItem("notes")
@@ -30,7 +33,7 @@ function App() {
 
   const editTextHandler = (title, text, editId) => {
     setEditText({ text: text, title: title, startEdit: true, editId: editId })
-    openFormHandler()
+    setFormClosing(false)
   }
 
   const saveNoteToLocalStorage = (noteData) => {
@@ -55,11 +58,17 @@ function App() {
         text: noteText,
         id: uuidv4(),
         createDate: new Date().getTime(),
+        order: noteList.length,
       }
       const updatedList = [...noteList, newNote]
       setNoteList(updatedList)
       saveNoteToLocalStorage(updatedList)
     }
+  }
+  const closeSingleNote = () => {
+    setSendedText("")
+    setSendedTitle("")
+    setSendedId("")
   }
 
   const deleteNoteHandler = (id, createdAt) => {
@@ -71,84 +80,79 @@ function App() {
     }
   }
 
-  const openFormHandler = () => {
-    setHide(false)
+  const setOrder = (id, pinedOrder) => {
+    setNoteList((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === id ? { ...note, pinedOrder: pinedOrder } : note
+      )
+    )
+  }
+  const updatePinOrder = (pinedOrder) => {
+    setNoteList((prevNotes) =>
+      prevNotes.map((note) => {
+        if (note.pinedOrder === pinedOrder) {
+          return { ...note, pinedOrder }
+        } else {
+          const newOrder =
+            note.pinedOrder > pinedOrder ? note.pinedOrder - 1 : note.pinedOrder
+          return { ...note, pinedOrder: newOrder }
+        }
+      })
+    )
   }
 
-  const sendContent = (createdDate, noteTitle, noteText, id, ev) => {
-    if (ev.target.classList.contains("single-note")) {
+  const sendContent = (noteTitle, noteText, ev, createdDate, id) => {
+    if (
+      ev.target.hasAttribute("data") &&
+      ev.target.getAttribute("data") === "single-note"
+    ) {
       setSendedText(noteText)
       setSendedTitle(noteTitle)
       setSendedId(id)
-      setSingleNoteClass(createdDate)
+      setIsSelected(createdDate)
     }
   }
 
-  const closeSingleNote = () => {
-    setSendedText("")
-    setSendedTitle("")
-    setSendedId("")
-  }
-
-  useEffect(() => {
-    if (!hide) {
-      const timer = setTimeout(() => {
-        setTimeOut(false)
-      }, 300)
-      return () => clearTimeout(timer)
-    }
-  }, [timeOut])
-
-  const clickHandler = () => {
-    setTimeOut(true)
+  const closeFormHandler = () => {
     setEditText({ title: "", text: "", startEdit: false, editId: "" })
+    setFormClosing(true)
   }
-
-  useEffect(() => {
-    if (timeOut) {
-      const timer = setTimeout(() => {
-        setHide(true)
-      }, 300)
-      return () => clearTimeout(timer)
-    }
-  }, [timeOut])
 
   return (
     <div className='App'>
       <FormContainer
-        setEditText={setEditText}
         editText={editText}
-        hide={hide}
-        setTimeOut={setTimeOut}
+        formClosing={formClosing}
+        setFormClosing={setFormClosing}
         addNote={addNoteHandler}
-        clickHandler={clickHandler}
-        timeOut={timeOut}
+        closeFormHandler={closeFormHandler}
       />
       <NoteList
-        closeSingleNote={closeSingleNote}
+        updatePinOrder={updatePinOrder}
+        setOrder={setOrder}
+        setPinnedCount={setPinnedCount}
+        pinnedCount={pinnedCount}
+        listLength={listLength}
         deleteNoteHandler={deleteNoteHandler}
         noteText={sendedText}
         sendContent={sendContent}
         noteList={noteList}
-        isSelected={singleNoteClass}
+        isSelected={isSelected}
         setNoteList={setNoteList}
+        saveNoteToLocalStorage={saveNoteToLocalStorage}
       />
       <AddNote
         sendedText={sendedText}
         noteList={noteList}
-        onClick={openFormHandler}
+        setFormClosing={setFormClosing}
         className='add-note'
       />
       <SingleNoteFull
         editTextHandler={editTextHandler}
-        editText={editText}
         sendedId={sendedId}
-        iconTitle={"close this note"}
-        onClick={closeSingleNote}
-        noteText={sendedText}
-        noteTitle={sendedTitle}
-        className='singleNoteFull'
-        closeIconClass={"close-icon"}
+        closeSingleNote={closeSingleNote}
+        sendedText={sendedText}
+        sendedTitle={sendedTitle}
       />
     </div>
   )

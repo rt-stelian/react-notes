@@ -4,28 +4,23 @@ import NoteForm from "../notes/NoteForm"
 
 const FormContainer = ({
   addNote,
-  setTimeOut,
-  hide,
-  clickHandler,
-  timeOut,
+  formClosing,
+  closeFormHandler,
   editText,
-  setEditText,
+  setFormClosing,
 }) => {
   return (
     <div
       className={`${styles.formContainer} ${
         editText.startEdit ? styles.editing : ""
-      }  ${timeOut ? styles.hideContainer : ""} ${
-        hide ? styles.closeContainer : ""
-      }`}>
+      }  ${formClosing ? styles.hideContainer : ""}`}>
       <NoteForm
-        setEditText={setEditText}
         editText={editText}
         inputClassName={styles.inputText}
         addNote={addNote}
-        setTimeOut={setTimeOut}
+        setFormClosing={setFormClosing}
       />
-      <TbCirclePlus onClick={clickHandler} className={styles.closeIcon} />
+      <TbCirclePlus onClick={closeFormHandler} className={styles.closeIcon} />
     </div>
   )
 }

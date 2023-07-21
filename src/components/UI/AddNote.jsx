@@ -1,8 +1,8 @@
 import { TbDeviceIpadPlus } from "react-icons/tb"
-const AddNote = ({ noteList, onClick, className, sendedText }) => {
+const AddNote = ({ noteList, setFormClosing, className, sendedText }) => {
   return (
     <div
-      onClick={onClick}
+      onClick={() => setFormClosing(false)}
       className={`${
         noteList.length && sendedText !== ""
           ? className + " add-bottom"

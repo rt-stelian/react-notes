@@ -18,10 +18,7 @@
 .hideContainer {
   transition: 0.3s;
   opacity: 0;
-}
-
-.closeContainer {
-  display: none;
+  pointer-events: none;
 }
 
 .closeIcon {

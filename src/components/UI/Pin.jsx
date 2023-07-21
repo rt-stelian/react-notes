@@ -1,35 +1,47 @@
 import { useState } from "react"
 import { TbPin, TbPinFilled } from "react-icons/tb"
 import styles from "../notes/Note.module.css"
-const Pin = ({ setPinDate, itemId }) => {
-  const [pin, setPin] = useState(false)
-
-  const pinHandler = () => {
-    if (!pin) {
-      setPin(true)
-    } else {
-      setPin(false)
-    }
-  }
+const Pin = ({
+  itemId,
+  setOrder,
+  listLength,
+  pinnedCount,
+  setPinnedCount,
+  updatePinOrder,
+  itemPinedOrder,
+  noteList,
+  saveNoteToLocalStorage,
+}) => {
+  const [isPinned, setIsPined] = useState(false)
 
   const pinNoteHandler = () => {
-    !pin ? setPinDate(itemId, new Date().getTime()) : setPinDate(itemId, null)
+    if (!isPinned) {
+      setOrder(itemId, listLength + pinnedCount)
+      setPinnedCount((prevElem) => prevElem + 1)
+    } else {
+      setOrder(itemId, null)
+      setPinnedCount((prevElem) => prevElem - 1)
+      updatePinOrder(itemPinedOrder)
+    }
   }
-
+  saveNoteToLocalStorage(noteList)
   return (
     <div onClick={pinNoteHandler} className={styles.pin}>
       <TbPin
         title='pine note'
-        onClick={pinHandler}
-        className={`${styles.pinItem} ${pin ? styles.hide : ""}`}
+        onClick={() => setIsPined(!isPinned)}
+        className={`${styles.pinItem} ${isPinned ? styles.hide : ""}`}
       />
       <TbPinFilled
         title='unpin note'
-        onClick={pinHandler}
-        className={`${styles.pinedItem} ${!pin ? styles.hide : ""}`}
+        onClick={() => setIsPined(!isPinned)}
+        className={`${styles.pinedItem} ${!isPinned ? styles.hide : ""}`}
       />
     </div>
   )
 }
 
 export default Pin
+
+
+
