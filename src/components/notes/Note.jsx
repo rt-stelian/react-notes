@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react"
 import { RiDeleteBin2Line } from "react-icons/ri"
 import Pin from "../UI/Pin"
 import styles from "./Note.module.css"
-
 
 const Note = ({
   isSelected,
@@ -13,25 +13,29 @@ const Note = ({
   pinedOrder,
   deleteNoteHandler,
   order,
-  pinnedCount,
-  setPinnedCount,
   listLength,
   setOrder,
-  updatePinOrder,
-  itemPinedOrder,
   createdAt,
   noteList,
   saveNoteToLocalStorage,
+  pineOrderNumber,
+  pinedCount,
+  setPinedCount,
 }) => {
+  const [isPinned, setIsPined] = useState(false)
+  useEffect(() => setIsPined(pineOrderNumber ? true : false), [])
+
   return (
     <div
       data='single-note'
-      style={pinedOrder ? { order: pinedOrder + 1 } : { order: order }}
+      style={
+        pineOrderNumber ? { order: pineOrderNumber + 1 } : { order: order }
+      }
       onClick={(ev) =>
         sendContent(noteTitle, noteText, ev, createdAt, createdAt)
       }
       className={`${"single-note"}  ${styles.singleNote} ${
-        pinedOrder ? styles.pinedNote : ""
+        pineOrderNumber ? styles.pinedNote : ""
       } ${isSelected && fullNoteText.length ? styles.active : ""}`}>
       <h2>{noteTitle}</h2>
       <p>{noteText}</p>
@@ -39,18 +43,19 @@ const Note = ({
         id={itemId}
         className={styles.deleteNote}
         title='delete note'
-        onClick={() => deleteNoteHandler(itemId, createdAt)}
+        onClick={() => deleteNoteHandler(itemId, createdAt, pinedOrder)}
       />
       <Pin
+        pinedCount={pinedCount}
+        setPinedCount={setPinedCount}
+        pineOrderNumber={pineOrderNumber}
+        isPinned={isPinned}
+        setIsPined={setIsPined}
         saveNoteToLocalStorage={saveNoteToLocalStorage}
         noteList={noteList}
-        updatePinOrder={updatePinOrder}
         listLength={listLength}
-        pinnedCount={pinnedCount}
-        setPinnedCount={setPinnedCount}
         setOrder={setOrder}
         itemId={itemId}
-        itemPinedOrder={itemPinedOrder}
       />
     </div>
   )

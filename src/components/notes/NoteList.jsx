@@ -9,36 +9,35 @@ const NoteList = ({
   isSelected,
   saveNoteToLocalStorage,
   setOrder,
-  updatePinOrder,
   listLength,
-  pinnedCount,
-  setPinnedCount,
+  pinedCount,
+  setPinedCount,
 }) => {
   return (
     <div className={styles.noteList}>
-      {noteList.map(({ id, text, title, createDate, order, pinedOrder }) => (
-        <Note
-          saveNoteToLocalStorage={saveNoteToLocalStorage}
-          noteList={noteList}
-          listLength={listLength}
-          updatePinOrder={updatePinOrder}
-          setPinnedCount={setPinnedCount}
-          pinnedCount={pinnedCount}
-          deleteNoteHandler={deleteNoteHandler}
-          fullNoteText={noteText}
-          isSelected={isSelected === createDate}
-          sendContent={sendContent}
-          key={id}
-          itemId={id}
-          itemPinedOrder={pinedOrder}
-          noteText={text}
-          noteTitle={title}
-          order={order}
-          createdAt={createDate}
-          setOrder={setOrder}
-          pinedOrder={pinedOrder ? pinedOrder : null}
-        />
-      ))}
+      {noteList.map(
+        ({ id, text, title, createDate, order, pineOrderNumber }) => (
+          <Note
+            pinedCount={pinedCount}
+            setPinedCount={setPinedCount}
+            saveNoteToLocalStorage={saveNoteToLocalStorage}
+            noteList={noteList}
+            listLength={listLength}
+            deleteNoteHandler={deleteNoteHandler}
+            fullNoteText={noteText}
+            isSelected={isSelected === createDate}
+            sendContent={sendContent}
+            key={id}
+            itemId={id}
+            noteText={text}
+            noteTitle={title}
+            order={order}
+            createdAt={createDate}
+            setOrder={setOrder}
+            pineOrderNumber={pineOrderNumber}
+          />
+        )
+      )}
     </div>
   )
 }

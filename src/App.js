@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { v4 as uuidv4 } from "uuid"
 import "./App.css"
 import NoteList from "./components/notes/NoteList"
@@ -13,6 +13,7 @@ function App() {
   const [sendedTitle, setSendedTitle] = useState("")
   const [sendedId, setSendedId] = useState("")
   const [isSelected, setIsSelected] = useState("")
+  const [pinedCount, setPinedCount] = useState(null)
   const [editText, setEditText] = useState({
     title: "",
     text: "",
@@ -21,13 +22,16 @@ function App() {
   })
 
   const listLength = noteList.length
-
-  const [pinnedCount, setPinnedCount] = useState(0)
+  const refListLength = useRef(noteList.length)
 
   useEffect(() => {
     const storedNotes = localStorage.getItem("notes")
+    const storedCount = localStorage.getItem("pinedCount")
     if (storedNotes) {
       setNoteList(JSON.parse(storedNotes))
+    }
+    if (storedCount) {
+      setPinedCount(JSON.parse(storedCount))
     }
   }, [])
 
@@ -39,12 +43,16 @@ function App() {
   const saveNoteToLocalStorage = (noteData) => {
     localStorage.setItem("notes", JSON.stringify(noteData))
   }
+  const updateList = (list) =>
+    list.map((note, index) => ({
+      ...note,
+      order: index,
+    }))
 
   const addNoteHandler = (noteTitle, noteText) => {
     const existingNote = noteList.find(
       (note) => note.createDate === editText.editId
     )
-
     if (existingNote) {
       existingNote.title = noteTitle
       existingNote.text = noteText
@@ -58,13 +66,15 @@ function App() {
         text: noteText,
         id: uuidv4(),
         createDate: new Date().getTime(),
-        order: noteList.length,
+        pineOrderNumber: "",
       }
       const updatedList = [...noteList, newNote]
-      setNoteList(updatedList)
+
+      setNoteList(() => updateList(updatedList))
       saveNoteToLocalStorage(updatedList)
     }
   }
+
   const closeSingleNote = () => {
     setSendedText("")
     setSendedTitle("")
@@ -73,33 +83,45 @@ function App() {
 
   const deleteNoteHandler = (id, createdAt) => {
     const updatedList = noteList.filter((note) => note.id !== id)
-    setNoteList(updatedList)
+    setNoteList(() => updateList(updatedList))
     saveNoteToLocalStorage(updatedList)
     if (sendedId === createdAt) {
       closeSingleNote()
     }
   }
 
-  const setOrder = (id, pinedOrder) => {
-    setNoteList((prevNotes) =>
-      prevNotes.map((note) =>
-        note.id === id ? { ...note, pinedOrder: pinedOrder } : note
-      )
-    )
-  }
-  const updatePinOrder = (pinedOrder) => {
+  const setOrder = (id, orderNumber) => {
     setNoteList((prevNotes) =>
       prevNotes.map((note) => {
-        if (note.pinedOrder === pinedOrder) {
-          return { ...note, pinedOrder }
-        } else {
-          const newOrder =
-            note.pinedOrder > pinedOrder ? note.pinedOrder - 1 : note.pinedOrder
-          return { ...note, pinedOrder: newOrder }
+        if (note.id === id) {
+          return { ...note, pineOrderNumber: orderNumber }
         }
+        return note
       })
     )
   }
+
+  useEffect(() => {
+    const prevNoteListLength = refListLength.current
+    const currentNoteListLength = noteList.length
+    refListLength.current = currentNoteListLength
+
+    const updatepineOrderNumber = () => {
+      setNoteList((prevNotes) =>
+        prevNotes.map((note) => {
+          if (note.pineOrderNumber) {
+            if (currentNoteListLength > prevNoteListLength) {
+              return { ...note, pineOrderNumber: note.pineOrderNumber + 1 }
+            } else if (currentNoteListLength < prevNoteListLength) {
+              return { ...note, pineOrderNumber: note.pineOrderNumber - 1 }
+            }
+          }
+          return note
+        })
+      )
+    }
+    updatepineOrderNumber()
+  }, [noteList.length])
 
   const sendContent = (noteTitle, noteText, ev, createdDate, id) => {
     if (
@@ -121,6 +143,7 @@ function App() {
   return (
     <div className='App'>
       <FormContainer
+        listLength={listLength}
         editText={editText}
         formClosing={formClosing}
         setFormClosing={setFormClosing}
@@ -128,17 +151,15 @@ function App() {
         closeFormHandler={closeFormHandler}
       />
       <NoteList
-        updatePinOrder={updatePinOrder}
+        pinedCount={pinedCount}
+        setPinedCount={setPinedCount}
         setOrder={setOrder}
-        setPinnedCount={setPinnedCount}
-        pinnedCount={pinnedCount}
         listLength={listLength}
         deleteNoteHandler={deleteNoteHandler}
         noteText={sendedText}
         sendContent={sendContent}
         noteList={noteList}
         isSelected={isSelected}
-        setNoteList={setNoteList}
         saveNoteToLocalStorage={saveNoteToLocalStorage}
       />
       <AddNote
