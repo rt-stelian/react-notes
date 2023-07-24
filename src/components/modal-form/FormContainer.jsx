@@ -13,7 +13,7 @@ const FormContainer = ({
     <div
       className={`${styles.formContainer} ${
         editText.startEdit ? styles.editing : ""
-      }  ${formClosing ? styles.hideContainer : ""}`}>
+      }  ${formClosing ? styles.hideContainer : ""} `}>
       <NoteForm
         editText={editText}
         inputClassName={styles.inputText}

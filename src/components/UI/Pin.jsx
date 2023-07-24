@@ -1,14 +1,11 @@
-import { useState, useEffect } from "react"
 import { TbPin, TbPinFilled } from "react-icons/tb"
 import styles from "../notes/Note.module.css"
 const Pin = ({
   itemId,
   setOrder,
   listLength,
-  saveNoteToLocalStorage,
   setIsPined,
   isPinned,
-  noteList,
   pinedCount,
   setPinedCount,
 }) => {
@@ -20,8 +17,6 @@ const Pin = ({
       setOrder(itemId, null)
     }
   }
-  saveNoteToLocalStorage(noteList)
-  localStorage.setItem("pinedCount", JSON.stringify(pinedCount))
   return (
     <div onClick={pinNoteHandler} className={styles.pin}>
       <TbPin

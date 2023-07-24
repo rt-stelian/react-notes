@@ -17,7 +17,6 @@ const Note = ({
   setOrder,
   createdAt,
   noteList,
-  saveNoteToLocalStorage,
   pineOrderNumber,
   pinedCount,
   setPinedCount,
@@ -51,7 +50,6 @@ const Note = ({
         pineOrderNumber={pineOrderNumber}
         isPinned={isPinned}
         setIsPined={setIsPined}
-        saveNoteToLocalStorage={saveNoteToLocalStorage}
         noteList={noteList}
         listLength={listLength}
         setOrder={setOrder}

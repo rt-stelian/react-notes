@@ -7,7 +7,6 @@ const NoteList = ({
   sendContent,
   noteList,
   isSelected,
-  saveNoteToLocalStorage,
   setOrder,
   listLength,
   pinedCount,
@@ -20,7 +19,6 @@ const NoteList = ({
           <Note
             pinedCount={pinedCount}
             setPinedCount={setPinedCount}
-            saveNoteToLocalStorage={saveNoteToLocalStorage}
             noteList={noteList}
             listLength={listLength}
             deleteNoteHandler={deleteNoteHandler}

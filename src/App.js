@@ -28,6 +28,7 @@ function App() {
     const storedNotes = localStorage.getItem("notes")
     const storedCount = localStorage.getItem("pinedCount")
     if (storedNotes) {
+      setFormClosing(true)
       setNoteList(JSON.parse(storedNotes))
     }
     if (storedCount) {
@@ -35,14 +36,20 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(noteList))
+    localStorage.setItem("pinedCount", JSON.stringify(pinedCount))
+
+    if (noteList.length <= 0) {
+      localStorage.clear()
+    }
+  }, [pinedCount, noteList])
+
   const editTextHandler = (title, text, editId) => {
     setEditText({ text: text, title: title, startEdit: true, editId: editId })
     setFormClosing(false)
   }
 
-  const saveNoteToLocalStorage = (noteData) => {
-    localStorage.setItem("notes", JSON.stringify(noteData))
-  }
   const updateList = (list) =>
     list.map((note, index) => ({
       ...note,
@@ -59,7 +66,6 @@ function App() {
       setSendedTitle(noteTitle)
       setSendedText(noteText)
       setEditText({ startEdit: false })
-      saveNoteToLocalStorage(noteList)
     } else {
       const newNote = {
         title: noteTitle,
@@ -71,7 +77,6 @@ function App() {
       const updatedList = [...noteList, newNote]
 
       setNoteList(() => updateList(updatedList))
-      saveNoteToLocalStorage(updatedList)
     }
   }
 
@@ -84,7 +89,6 @@ function App() {
   const deleteNoteHandler = (id, createdAt) => {
     const updatedList = noteList.filter((note) => note.id !== id)
     setNoteList(() => updateList(updatedList))
-    saveNoteToLocalStorage(updatedList)
     if (sendedId === createdAt) {
       closeSingleNote()
     }
@@ -121,7 +125,7 @@ function App() {
       )
     }
     updatepineOrderNumber()
-  }, [noteList.length])
+  }, [])
 
   const sendContent = (noteTitle, noteText, ev, createdDate, id) => {
     if (
@@ -160,7 +164,6 @@ function App() {
         sendContent={sendContent}
         noteList={noteList}
         isSelected={isSelected}
-        saveNoteToLocalStorage={saveNoteToLocalStorage}
       />
       <AddNote
         sendedText={sendedText}
