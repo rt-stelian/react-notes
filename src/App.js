@@ -125,7 +125,7 @@ function App() {
       )
     }
     updatepineOrderNumber()
-  }, [])
+  }, [noteList.length])
 
   const sendContent = (noteTitle, noteText, ev, createdDate, id) => {
     if (
