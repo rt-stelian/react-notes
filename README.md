@@ -6,7 +6,7 @@ Add and Edit Notes: Users can add new notes to the list and edit existing ones. 
 
 Viewing Selected Note: When a user clicks on a note in the list, the full content of the selected note is displayed in a modal window or dedicated section. Users can view both the title and detailed content of the selected note.
 
-Delete Note: Users have the option to delete a note from the list. By clicking on the trash bin icon (RiDeleteBin2Line), the respective note will be removed from the list.
+Delete Note: Users have the option to delete a note from the list. By clicking on the trash icon, the respective note will be removed from the list.
 
 Pinning and Unpinning Notes: The app provides "pin/unpin" functionality for notes. By clicking on the pin icon (Pin) next to each note, users can mark a note as "pinned" or "unpinned". Pinned notes are placed at the top of the list in the order they were pinned.
 
