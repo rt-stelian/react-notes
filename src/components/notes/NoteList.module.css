@@ -9,3 +9,22 @@
 .notePined {
   transition: transform 0.3s ease-in-out;
 }
+
+.searchNote {
+  margin: 0 0 10px 20px;
+  border: 2px solid #0000002c;
+  border-radius: 5px;
+  padding: 5px 10px;
+  order: 1000;
+}
+
+.searchNote input {
+  height: 30px;width: 100%;border: none;
+}
+
+.searchNote input:focus{
+  outline: none
+}
+.searchNote input::placeholder{
+  color: #0000006b;
+}

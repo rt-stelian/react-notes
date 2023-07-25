@@ -1,6 +1,6 @@
 import { RiEditLine } from "react-icons/ri"
 import { TbCirclePlus } from "react-icons/tb"
-import styles from "./singleNoteFull.module.css"
+import styles from "./SingleNoteFull.module.css"
 
 const SingleNoteFull = ({
   editTextHandler,
