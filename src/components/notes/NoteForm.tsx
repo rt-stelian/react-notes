@@ -1,9 +1,31 @@
+import React, { FC, ChangeEvent, FormEvent } from "react"
 import styles from "./NoteForm.module.css"
 import { useState, useEffect } from "react"
 import Button from "../UI/Button"
+import { EditText } from "../../interfaces/interfaces"
 
-const NoteForm = ({ addNote, inputClassName, editText, setFormClosing }) => {
-  const [inputText, setInputText] = useState({ inputTitle: "", inputText: "" })
+interface NoteFormProps {
+  addNote: (noteTitle: string, noteText: string) => void
+  inputClassName: string
+  editText: EditText
+  setFormClosing: (formClosing: boolean) => void
+}
+
+interface InputTextState {
+  inputTitle: string
+  inputText: string
+}
+
+const NoteForm: FC<NoteFormProps> = ({
+  addNote,
+  inputClassName,
+  editText,
+  setFormClosing,
+}) => {
+  const [inputText, setInputText] = useState<InputTextState>({
+    inputTitle: "",
+    inputText: "",
+  })
 
   useEffect(() => {
     if (editText.startEdit) {
@@ -19,20 +41,20 @@ const NoteForm = ({ addNote, inputClassName, editText, setFormClosing }) => {
     }
   }, [editText])
 
-  function handleInputChange(text, name) {
+  function handleInputChange(ev: ChangeEvent<HTMLInputElement>, name: string) {
     setInputText({
       ...inputText,
-      [name]: text.target.value,
+      [name]: ev.target.value,
     })
   }
 
-  const emptyInputs = () => {
+  const emptyInputs = (): boolean => {
     return (
       inputText.inputTitle.trim() !== "" && inputText.inputText.trim() !== ""
     )
   }
 
-  const submitFormHandler = (ev) => {
+  const submitFormHandler = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
     setInputText({
       inputTitle: inputText.inputTitle,
@@ -57,9 +79,7 @@ const NoteForm = ({ addNote, inputClassName, editText, setFormClosing }) => {
       </label>
       <label>
         <textarea
-          id='textarea'
           className={inputClassName}
-          type='text'
           value={inputText.inputText}
           placeholder='add note text'
           onChange={(e) => handleInputChange(e, "inputText")}

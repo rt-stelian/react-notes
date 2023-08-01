@@ -1,7 +1,27 @@
+import React, { FC, MouseEvent } from "react"
 import Note from "./Note"
 import styles from "./NoteList.module.css"
+import { NoteInterface } from "../../interfaces/interfaces"
 
-const NoteList = ({
+interface NoteListProps {
+  deleteNoteHandler: (id: string, createdAt: string) => void
+  noteText: string
+  sendContent: (
+    ev: MouseEvent<HTMLDivElement>,
+    noteTitle: string,
+    noteText: string,
+    createdDate: string,
+    id: string
+  ) => void
+  noteList: NoteInterface[]
+  isSelected: string | boolean
+  setOrder: (id: string, orderNumber: number | null) => void
+  listLength: number
+  pinedCount: number | null
+  setPinedCount: (pinedCount: number | null) => void
+}
+
+const NoteList: FC<NoteListProps> = ({
   deleteNoteHandler,
   noteText,
   sendContent,

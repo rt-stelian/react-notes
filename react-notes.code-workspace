@@ -1,0 +1,15 @@
+{
+  "folders": [
+	{
+		"name": "react-notes",
+		"path": "."
+	},
+	{
+		"name": ".vscode",
+		"path": "../06-notes/.vscode"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "react-notes"
+  }
+}

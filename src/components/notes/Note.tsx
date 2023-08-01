@@ -1,3 +1,4 @@
+import React from "react"
 import { useEffect, useState } from "react"
 import { RiDeleteBin2Line } from "react-icons/ri"
 import Pin from "../UI/Pin"
@@ -31,7 +32,7 @@ const Note = ({
         pineOrderNumber ? { order: pineOrderNumber + 1 } : { order: order }
       }
       onClick={(ev) =>
-        sendContent(noteTitle, noteText, ev, createdAt, createdAt)
+        sendContent(ev, noteTitle, noteText, createdAt, createdAt)
       }
       className={`${"single-note"}  ${styles.singleNote} ${
         pineOrderNumber ? styles.pinedNote : ""
