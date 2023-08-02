@@ -2,19 +2,10 @@ import React, { FC, ChangeEvent, FormEvent } from "react"
 import styles from "./NoteForm.module.css"
 import { useState, useEffect } from "react"
 import Button from "../UI/Button"
-import { EditText } from "../../interfaces/interfaces"
+import { NoteFormProps, InputTextState } from "../../interfaces/PropsInterfaces" 
 
-interface NoteFormProps {
-  addNote: (noteTitle: string, noteText: string) => void
-  inputClassName: string
-  editText: EditText
-  setFormClosing: (formClosing: boolean) => void
-}
 
-interface InputTextState {
-  inputTitle: string
-  inputText: string
-}
+
 
 const NoteForm: FC<NoteFormProps> = ({
   addNote,

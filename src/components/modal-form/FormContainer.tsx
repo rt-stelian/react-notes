@@ -2,15 +2,9 @@ import React, { FC } from "react"
 import { TbCirclePlus } from "react-icons/tb"
 import styles from "./FormContainer.module.css"
 import NoteForm from "../notes/NoteForm"
-import { EditText } from "../../interfaces/interfaces"
+import { FormContainerProps } from "../../interfaces/PropsInterfaces"
 
-interface FormContainerProps {
-  addNote: (noteTitle: string, noteText: string) => void
-  formClosing: boolean
-  closeFormHandler: () => void
-  editText: EditText
-  setFormClosing: (formClosing: boolean) => void
-}
+
 
 const FormContainer: FC<FormContainerProps> = ({
   addNote,

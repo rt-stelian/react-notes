@@ -1,17 +1,7 @@
 import React, { FC } from "react"
 import { TbPin, TbPinFilled } from "react-icons/tb"
 import styles from "../notes/Note.module.css"
-import { PinedCountUpdater } from "../../types/types"
-
-interface PinProps {
-  itemId: string
-  setOrder: (id: string, orderNumber: number) => void
-  listLength: number
-  setIsPined: (isPined: boolean) => void
-  isPined: boolean
-  pinedCount: number
-  setPinedCount: (pinedCountUpdater: PinedCountUpdater) => void
-}
+import { PinProps } from "../../interfaces/PropsInterfaces"
 
 const Pin: FC<PinProps> = ({
   itemId,

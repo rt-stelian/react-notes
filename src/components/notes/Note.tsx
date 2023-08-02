@@ -1,33 +1,9 @@
-import React, { FC, MouseEvent } from "react"
+import React, { FC } from "react"
 import { useEffect, useState } from "react"
 import { RiDeleteBin2Line } from "react-icons/ri"
 import Pin from "../UI/Pin"
 import styles from "./Note.module.css"
-import { NoteInterface } from "../../interfaces/interfaces"
-import { PinedCountUpdater } from "../../types/types"
-
-interface NoteProps {
-  isSelected: string | boolean
-  sendContent: (
-    ev: MouseEvent<HTMLDivElement>,
-    noteTitle: string,
-    noteText: string,
-    createdDate: string,
-    id: string
-  ) => void
-  noteTitle: string
-  noteText: string
-  fullNoteText: string
-  itemId: string
-  deleteNoteHandler: (id: string, createdAt: string) => void
-  order: NoteInterface["order"]
-  listLength: number
-  setOrder: (id: string, orderNumber: number) => void
-  createdAt: string
-  pineOrderNumber: number
-  pinedCount: number
-  setPinedCount: (pinedCountUpdater: PinedCountUpdater) => void
-}
+import { NoteProps } from "../../interfaces/PropsInterfaces"
 
 const Note: FC<NoteProps> = ({
   isSelected,

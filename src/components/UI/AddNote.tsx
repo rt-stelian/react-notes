@@ -1,13 +1,7 @@
 import React, { FC } from "react"
 import { TbDeviceIpadPlus } from "react-icons/tb"
-import { NoteInterface } from "../../interfaces/interfaces"
+import { AddNoteProps } from "../../interfaces/PropsInterfaces"
 
-interface AddNoteProps {
-  noteList: NoteInterface[]
-  setFormClosing: (formClosing: boolean) => void
-  className: string
-  sendedText: string
-}
 const AddNote: FC<AddNoteProps> = ({
   noteList,
   setFormClosing,
