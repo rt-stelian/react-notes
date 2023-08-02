@@ -1,8 +1,17 @@
-import { RiEditLine } from "react-icons/ri"
+import { FC } from "react"
+import React, { RiEditLine } from "react-icons/ri"
 import { TbCirclePlus } from "react-icons/tb"
 import styles from "./SingleNoteFull.module.css"
 
-const SingleNoteFull = ({
+interface SingleNoteFullProps {
+  editTextHandler: (title: string, text: string, editId: string) => void
+  sendedId: string
+  closeSingleNote: () => void
+  sendedText: string
+  sendedTitle: string
+}
+
+const SingleNoteFull: FC<SingleNoteFullProps> = ({
   editTextHandler,
   sendedId,
   closeSingleNote,

@@ -1,41 +1,64 @@
-import React from "react"
+import React, { FC, MouseEvent } from "react"
 import { useEffect, useState } from "react"
 import { RiDeleteBin2Line } from "react-icons/ri"
 import Pin from "../UI/Pin"
 import styles from "./Note.module.css"
+import { NoteInterface } from "../../interfaces/interfaces"
+import { PinedCountUpdater } from "../../types/types"
 
-const Note = ({
+interface NoteProps {
+  isSelected: string | boolean
+  sendContent: (
+    ev: MouseEvent<HTMLDivElement>,
+    noteTitle: string,
+    noteText: string,
+    createdDate: string,
+    id: string
+  ) => void
+  noteTitle: string
+  noteText: string
+  fullNoteText: string
+  itemId: string
+  deleteNoteHandler: (id: string, createdAt: string) => void
+  order: NoteInterface["order"]
+  listLength: number
+  setOrder: (id: string, orderNumber: number) => void
+  createdAt: string
+  pineOrderNumber: number
+  pinedCount: number
+  setPinedCount: (pinedCountUpdater: PinedCountUpdater) => void
+}
+
+const Note: FC<NoteProps> = ({
   isSelected,
   sendContent,
   noteTitle,
   noteText,
   fullNoteText,
   itemId,
-  pinedOrder,
   deleteNoteHandler,
   order,
   listLength,
   setOrder,
   createdAt,
-  noteList,
   pineOrderNumber,
   pinedCount,
   setPinedCount,
 }) => {
-  const [isPinned, setIsPined] = useState(false)
-  useEffect(() => setIsPined(pineOrderNumber ? true : false), [])
-
+  const [isPined, setIsPined] = useState(false)
+  useEffect(() => setIsPined(pineOrderNumber > 0 ? true : false), [])
+  console.log(typeof order)
   return (
     <div
-      data='single-note'
+      data-id='single-note'
       style={
-        pineOrderNumber ? { order: pineOrderNumber + 1 } : { order: order }
+        pineOrderNumber > 0 ? { order: pineOrderNumber + 1 } : { order: order }
       }
       onClick={(ev) =>
         sendContent(ev, noteTitle, noteText, createdAt, createdAt)
       }
       className={`${"single-note"}  ${styles.singleNote} ${
-        pineOrderNumber ? styles.pinedNote : ""
+        pineOrderNumber > 0 ? styles.pinedNote : ""
       } ${isSelected && fullNoteText.length ? styles.active : ""}`}>
       <h2>{noteTitle}</h2>
       <p>{noteText}</p>
@@ -43,15 +66,13 @@ const Note = ({
         id={itemId}
         className={styles.deleteNote}
         title='delete note'
-        onClick={() => deleteNoteHandler(itemId, createdAt, pinedOrder)}
+        onClick={() => deleteNoteHandler(itemId, createdAt)}
       />
       <Pin
         pinedCount={pinedCount}
         setPinedCount={setPinedCount}
-        pineOrderNumber={pineOrderNumber}
-        isPinned={isPinned}
+        isPined={isPined}
         setIsPined={setIsPined}
-        noteList={noteList}
         listLength={listLength}
         setOrder={setOrder}
         itemId={itemId}

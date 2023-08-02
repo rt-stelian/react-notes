@@ -1,7 +1,7 @@
+import React, { FC } from "react"
 import { TbCirclePlus } from "react-icons/tb"
 import styles from "./FormContainer.module.css"
 import NoteForm from "../notes/NoteForm"
-import React, { FC } from "react"
 import { EditText } from "../../interfaces/interfaces"
 
 interface FormContainerProps {

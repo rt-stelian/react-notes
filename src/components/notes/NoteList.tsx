@@ -2,6 +2,7 @@ import React, { FC, MouseEvent } from "react"
 import Note from "./Note"
 import styles from "./NoteList.module.css"
 import { NoteInterface } from "../../interfaces/interfaces"
+import { PinedCountUpdater } from "../../types/types"
 
 interface NoteListProps {
   deleteNoteHandler: (id: string, createdAt: string) => void
@@ -15,10 +16,10 @@ interface NoteListProps {
   ) => void
   noteList: NoteInterface[]
   isSelected: string | boolean
-  setOrder: (id: string, orderNumber: number | null) => void
+  setOrder: (id: string, orderNumber: number) => void
   listLength: number
-  pinedCount: number | null
-  setPinedCount: (pinedCount: number | null) => void
+  pinedCount: number
+  setPinedCount: (pinedCountUpdater: PinedCountUpdater) => void
 }
 
 const NoteList: FC<NoteListProps> = ({
@@ -39,7 +40,6 @@ const NoteList: FC<NoteListProps> = ({
           <Note
             pinedCount={pinedCount}
             setPinedCount={setPinedCount}
-            noteList={noteList}
             listLength={listLength}
             deleteNoteHandler={deleteNoteHandler}
             fullNoteText={noteText}

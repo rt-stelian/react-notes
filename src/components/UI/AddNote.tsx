@@ -1,5 +1,19 @@
+import React, { FC } from "react"
 import { TbDeviceIpadPlus } from "react-icons/tb"
-const AddNote = ({ noteList, setFormClosing, className, sendedText }) => {
+import { NoteInterface } from "../../interfaces/interfaces"
+
+interface AddNoteProps {
+  noteList: NoteInterface[]
+  setFormClosing: (formClosing: boolean) => void
+  className: string
+  sendedText: string
+}
+const AddNote: FC<AddNoteProps> = ({
+  noteList,
+  setFormClosing,
+  className,
+  sendedText,
+}) => {
   return (
     <div
       onClick={() => setFormClosing(false)}

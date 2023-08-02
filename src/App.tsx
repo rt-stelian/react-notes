@@ -15,7 +15,7 @@ function App(): JSX.Element {
   const [sendedTitle, setSendedTitle] = useState<string>("")
   const [sendedId, setSendedId] = useState<string>("")
   const [isSelected, setIsSelected] = useState<boolean | string>(false)
-  const [pinedCount, setPinedCount] = useState<number | null>(null)
+  const [pinedCount, setPinedCount] = useState<number>(0)
   const [editText, setEditText] = useState<EditText>({
     title: "",
     text: "",
@@ -78,7 +78,7 @@ function App(): JSX.Element {
         text: noteText,
         id: uuidv4() as string,
         createDate: new Date().getTime().toString(),
-        pineOrderNumber: null,
+        pineOrderNumber: 0,
       }
       const updatedList = [...noteList, newNote]
 
@@ -100,7 +100,7 @@ function App(): JSX.Element {
     }
   }
 
-  const setOrder = (id: string, orderNumber: number | null): void => {
+  const setOrder = (id: string, orderNumber: number): void => {
     setNoteList((prevNotes) =>
       prevNotes.map((note) => {
         if (note.id === id) {
@@ -141,10 +141,8 @@ function App(): JSX.Element {
     id: string
   ): void => {
     const targetElement = ev.target as HTMLDivElement
-    if (
-      targetElement.hasAttribute("data") &&
-      targetElement.getAttribute("data") === "single-note"
-    ) {
+    const dataId = targetElement.getAttribute("data-id")
+    if (dataId === "single-note") {
       setSendedText(noteText)
       setSendedTitle(noteTitle)
       setSendedId(id)

@@ -3,7 +3,7 @@ export interface NoteInterface {
   text: string
   id: string
   createDate: string
-  pineOrderNumber: number | null
+  pineOrderNumber: number
   order?: number
 }
 

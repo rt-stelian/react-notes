@@ -41,7 +41,10 @@ const NoteForm: FC<NoteFormProps> = ({
     }
   }, [editText])
 
-  function handleInputChange(ev: ChangeEvent<HTMLInputElement>, name: string) {
+  function handleInputChange(
+    ev: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
+    name: string
+  ) {
     setInputText({
       ...inputText,
       [name]: ev.target.value,
