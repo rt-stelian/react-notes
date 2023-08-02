@@ -23,7 +23,6 @@ const Note: FC<NoteProps> = ({
 }) => {
   const [isPined, setIsPined] = useState(false)
   useEffect(() => setIsPined(pineOrderNumber > 0 ? true : false), [])
-  console.log(typeof order)
   return (
     <div
       data-id='single-note'
