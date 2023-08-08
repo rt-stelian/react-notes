@@ -1,18 +1,16 @@
 import React, { FC, ChangeEvent, FormEvent } from "react"
+import { v4 as uuidv4 } from "uuid"
 import styles from "./NoteForm.module.css"
 import { useState, useEffect } from "react"
 import Button from "../UI/Button"
-import { NoteFormProps, InputTextState } from "../../interfaces/PropsInterfaces" 
+import { NoteFormProps, InputTextState } from "../../interfaces/PropsInterfaces"
+import { NoteInterface } from "../../interfaces/interfaces"
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
+import { addNoteHandler, setFormClosing } from "../../store/noteSlice"
 
-
-
-
-const NoteForm: FC<NoteFormProps> = ({
-  addNote,
-  inputClassName,
-  editText,
-  setFormClosing,
-}) => {
+const NoteForm: FC<NoteFormProps> = ({ inputClassName }) => {
+  const editText = useAppSelector((state) => state.notes.editText)
+  const dispatch = useAppDispatch()
   const [inputText, setInputText] = useState<InputTextState>({
     inputTitle: "",
     inputText: "",
@@ -55,9 +53,16 @@ const NoteForm: FC<NoteFormProps> = ({
       inputText: inputText.inputText,
     })
     if (emptyInputs()) {
-      addNote(inputText.inputTitle, inputText.inputText)
+      const newNote: NoteInterface = {
+        title: inputText.inputTitle,
+        text: inputText.inputText,
+        id: uuidv4() as string,
+        createDate: new Date().getTime().toString(),
+        pineOrderNumber: 0,
+      }
+      dispatch(addNoteHandler(newNote))
       setInputText({ inputTitle: "", inputText: "" })
-      setFormClosing(true)
+      dispatch(setFormClosing(true))
     }
   }
 

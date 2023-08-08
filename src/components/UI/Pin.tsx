@@ -1,27 +1,28 @@
-import React, { FC } from "react"
+import React, { FC, MouseEvent } from "react"
 import { TbPin, TbPinFilled } from "react-icons/tb"
 import styles from "../notes/Note.module.css"
 import { PinProps } from "../../interfaces/PropsInterfaces"
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
+import { setPinedCount, setOrder } from "../../store/noteSlice"
 
-const Pin: FC<PinProps> = ({
-  itemId,
-  setOrder,
-  listLength,
-  setIsPined,
-  isPined,
-  pinedCount,
-  setPinedCount,
-}) => {
-  const pinNoteHandler = () => {
+const Pin: FC<PinProps> = ({ itemId, setIsPined, isPined }) => {
+  const dispatch = useAppDispatch()
+  const pinedCount = useAppSelector((state) => state.notes.pinedCount)
+  const listLength = useAppSelector((state) => state.notes.noteList.length)
+
+  const pinNoteHandler = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation()
     if (!isPined) {
-      setPinedCount((prevElem): number => prevElem + 1)
-      setOrder(itemId, listLength + pinedCount)
+      dispatch(setPinedCount(pinedCount + 1))
+      let order = listLength + pinedCount
+      dispatch(setOrder({ itemId, order }))
     } else {
-      setOrder(itemId, 0)
+      let order = 0
+      dispatch(setOrder({ itemId, order }))
     }
   }
   return (
-    <div onClick={pinNoteHandler} className={styles.pin}>
+    <div onClick={(e) => pinNoteHandler(e)} className={styles.pin}>
       <TbPin
         title='pine note'
         onClick={() => setIsPined(!isPined)}

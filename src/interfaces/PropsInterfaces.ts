@@ -4,7 +4,6 @@ import { NoteInterface } from "./interfaces"
 import { PinedCountUpdater } from "../types/types"
 
 export interface FormContainerProps {
-  addNote: (noteTitle: string, noteText: string) => void
   formClosing: boolean
   closeFormHandler: () => void
   editText: EditText
@@ -13,32 +12,16 @@ export interface FormContainerProps {
 
 export interface NoteProps {
   isSelected: string | boolean
-  sendContent: (
-    ev: MouseEvent<HTMLDivElement>,
-    noteTitle: string,
-    noteText: string,
-    createdDate: string,
-    id: string
-  ) => void
+  createDate: string
   noteTitle: string
   noteText: string
-  fullNoteText: string
   itemId: string
-  deleteNoteHandler: (id: string, createdAt: string) => void
   order: NoteInterface["order"]
-  listLength: number
-  setOrder: (id: string, orderNumber: number) => void
-  createdAt: string
   pineOrderNumber: number
-  pinedCount: number
-  setPinedCount: (pinedCountUpdater: PinedCountUpdater) => void
 }
 
 export interface NoteFormProps {
-  addNote: (noteTitle: string, noteText: string) => void
   inputClassName: string
-  editText: EditText
-  setFormClosing: (formClosing: boolean) => void
 }
 
 export interface InputTextState {
@@ -56,7 +39,6 @@ export interface NoteListProps {
     createdDate: string,
     id: string
   ) => void
-  noteList: NoteInterface[]
   isSelected: string | boolean
   setOrder: (id: string, orderNumber: number) => void
   listLength: number
@@ -65,28 +47,13 @@ export interface NoteListProps {
 }
 
 export interface SingleNoteFullProps {
-  editTextHandler: (title: string, text: string, editId: string) => void
-  sendedId: string
-  closeSingleNote: () => void
-  sendedText: string
-  sendedTitle: string
-}
-
-export interface AddNoteProps {
-  noteList: NoteInterface[]
-  setFormClosing: (formClosing: boolean) => void
-  className: string
-  sendedText: string
+  id: string
 }
 
 export interface PinProps {
   itemId: string
-  setOrder: (id: string, orderNumber: number) => void
-  listLength: number
   setIsPined: (isPined: boolean) => void
   isPined: boolean
-  pinedCount: number
-  setPinedCount: (pinedCountUpdater: PinedCountUpdater) => void
 }
 
 export interface ButtonProps

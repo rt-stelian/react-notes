@@ -1,57 +1,69 @@
 import React, { FC } from "react"
 import { useEffect, useState } from "react"
 import { RiDeleteBin2Line } from "react-icons/ri"
+import { MouseEvent } from "react"
 import Pin from "../UI/Pin"
 import styles from "./Note.module.css"
 import { NoteProps } from "../../interfaces/PropsInterfaces"
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks"
+import {
+  closeSingleNote,
+  deleteNoteHandler,
+  sendContent,
+  setIsSelected,
+  setFullNoteId,
+} from "../../store/noteSlice"
 
 const Note: FC<NoteProps> = ({
-  isSelected,
-  sendContent,
   noteTitle,
   noteText,
-  fullNoteText,
   itemId,
-  deleteNoteHandler,
   order,
-  listLength,
-  setOrder,
-  createdAt,
+  createDate,
   pineOrderNumber,
-  pinedCount,
-  setPinedCount,
+  isSelected,
 }) => {
+  const dispatch = useAppDispatch()
+  const fullNoteId = useAppSelector((state) => state.notes.fullNoteId)
   const [isPined, setIsPined] = useState(false)
   useEffect(() => setIsPined(pineOrderNumber > 0 ? true : false), [])
+
   return (
     <div
       data-id='single-note'
       style={
         pineOrderNumber > 0 ? { order: pineOrderNumber + 1 } : { order: order }
       }
-      onClick={(ev) =>
-        sendContent(ev, noteTitle, noteText, createdAt, createdAt)
-      }
+      onClick={(e) => {
+        e.stopPropagation()
+        dispatch(
+          sendContent({
+            noteTitle,
+            noteText,
+            createDate,
+            itemId,
+          })
+        )
+      }}
       className={`${"single-note"}  ${styles.singleNote} ${
         pineOrderNumber > 0 ? styles.pinedNote : ""
-      } ${isSelected && fullNoteText.length ? styles.active : ""}`}>
+      } ${isSelected === itemId && fullNoteId.length ? styles.active : ""}`}>
       <h2>{noteTitle}</h2>
       <p>{noteText}</p>
       <RiDeleteBin2Line
         id={itemId}
         className={styles.deleteNote}
         title='delete note'
-        onClick={() => deleteNoteHandler(itemId, createdAt)}
+        onClick={(e) => {
+          e.stopPropagation()
+          dispatch(
+            deleteNoteHandler({
+              itemId,
+            })
+          )
+        }}
       />
-      <Pin
-        pinedCount={pinedCount}
-        setPinedCount={setPinedCount}
-        isPined={isPined}
-        setIsPined={setIsPined}
-        listLength={listLength}
-        setOrder={setOrder}
-        itemId={itemId}
-      />
+      <Pin isPined={isPined} setIsPined={setIsPined} itemId={itemId} />
     </div>
   )
 }
