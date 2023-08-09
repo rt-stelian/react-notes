@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { EditText, NoteInterface } from "../interfaces/interfaces"
 
 type NoteState = {
@@ -37,7 +37,7 @@ const noteSlice = createSlice({
         (note) => note.id === state.fullNoteId
       )
 
-      if (existingNote) {
+      if (existingNote && state.editText.startEdit === true) {
         existingNote.title = action.payload.title
         existingNote.text = action.payload.text
         state.sendedTitle = action.payload.title
@@ -72,8 +72,8 @@ const noteSlice = createSlice({
     setPinedCount(state, action: PayloadAction<number>) {
       state.pinedCount = action.payload
     },
-    setEditText(state, action: PayloadAction<EditText>) {
-      state.editText = action.payload
+    setEditText(state, action: PayloadAction<boolean>) {
+      state.editText.startEdit = action.payload
     },
     updateList(state) {
       state.noteList.map((note: NoteInterface, index: number) => ({
@@ -134,13 +134,16 @@ const noteSlice = createSlice({
     updatepineOrderNumber(
       state,
       action: PayloadAction<{
+        noteList: NoteInterface[]
         currentNoteListLength: number
         prevNoteListLength: number
       }>
     ) {
-      const { currentNoteListLength, prevNoteListLength } = action.payload
-      state.noteList.map((note) => {
-        if (note.pineOrderNumber) {
+      const { currentNoteListLength, prevNoteListLength, noteList } =
+        action.payload
+      state.noteList = noteList.map((note) => {
+        if (note.pineOrderNumber && note.pineOrderNumber !== 0) {
+          console.log(note.pineOrderNumber)
           if (currentNoteListLength > prevNoteListLength) {
             return { ...note, pineOrderNumber: note.pineOrderNumber + 1 }
           } else if (currentNoteListLength < prevNoteListLength) {

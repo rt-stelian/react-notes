@@ -1,18 +1,11 @@
 import React, { FC } from "react"
 import { useEffect, useState } from "react"
 import { RiDeleteBin2Line } from "react-icons/ri"
-import { MouseEvent } from "react"
 import Pin from "../UI/Pin"
 import styles from "./Note.module.css"
 import { NoteProps } from "../../interfaces/PropsInterfaces"
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks"
-import {
-  closeSingleNote,
-  deleteNoteHandler,
-  sendContent,
-  setIsSelected,
-  setFullNoteId,
-} from "../../store/noteSlice"
+import { deleteNoteHandler, sendContent } from "../../store/noteSlice"
 
 const Note: FC<NoteProps> = ({
   noteTitle,

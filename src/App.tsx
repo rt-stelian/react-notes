@@ -1,5 +1,5 @@
-import React, { JSX, MouseEvent } from "react"
-import { useEffect, useRef, useState } from "react"
+import React, { JSX } from "react"
+import { useEffect, useRef } from "react"
 import "./App.css"
 import NoteList from "./components/notes/NoteList"
 import FormContainer from "./components/modal-form/FormContainer"
@@ -45,15 +45,21 @@ function App(): JSX.Element {
       localStorage.clear()
     }
   }, [pinedCount, noteList])
-
+  const noteListLength = useAppSelector((state) => state.notes.noteList.length)
   useEffect(() => {
     const prevNoteListLength: number = refListLength.current
     const currentNoteListLength: number = noteList.length
     refListLength.current = currentNoteListLength
 
-    updatepineOrderNumber(noteList, currentNoteListLength, prevNoteListLength)
-    updateList(noteList)
-  }, [noteList.length])
+    dispatch(
+      updatepineOrderNumber({
+        noteList,
+        currentNoteListLength,
+        prevNoteListLength,
+      })
+    )
+    updateList()
+  }, [noteListLength])
   return (
     <div className='App'>
       <FormContainer />
