@@ -5,7 +5,11 @@ import Pin from "../UI/Pin"
 import styles from "./Note.module.css"
 import { NoteProps } from "../../interfaces/PropsInterfaces"
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks"
-import { deleteNoteHandler, sendContent } from "../../store/noteSlice"
+import {
+  deleteNoteHandler,
+  sendContent,
+  setFullNoteId,
+} from "../../store/noteSlice"
 
 const Note: FC<NoteProps> = ({
   noteTitle,
@@ -18,9 +22,13 @@ const Note: FC<NoteProps> = ({
 }) => {
   const dispatch = useAppDispatch()
   const fullNoteId = useAppSelector((state) => state.notes.fullNoteId)
+  const noteList = useAppSelector((state) => state.notes.noteList)
   const [isPined, setIsPined] = useState(false)
-  useEffect(() => setIsPined(pineOrderNumber > 0 ? true : false), [])
 
+  useEffect(() => setIsPined(pineOrderNumber > 0 ? true : false), [])
+  useEffect(() => {
+    dispatch(setFullNoteId(fullNoteId))
+  }, [fullNoteId, noteList])
   return (
     <div
       data-id='single-note'

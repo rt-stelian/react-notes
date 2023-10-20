@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { Dispatch } from "redux"
 import { EditText, NoteInterface } from "../interfaces/interfaces"
 
 type NoteState = {
@@ -28,6 +29,23 @@ const initialState: NoteState = {
   },
 }
 
+interface ReduxState {
+  notes: {
+    noteList: NoteInterface[]
+    pinedCount: number
+  }
+}
+
+export const saveToLocalStorageThunk =
+  () => (_dispatch: Dispatch, getState: () => ReduxState) => {
+    const state = getState()
+    localStorage.setItem("notes", JSON.stringify(state.notes.noteList))
+    localStorage.setItem("pinedCount", JSON.stringify(state.notes.pinedCount))
+    if (state.notes.noteList.length <= 0) {
+      localStorage.clear()
+    }
+  }
+
 const noteSlice = createSlice({
   name: "notes",
   initialState,
@@ -49,6 +67,7 @@ const noteSlice = createSlice({
     setNoteList(state, action: PayloadAction<NoteInterface[]>) {
       state.noteList = action.payload
     },
+
     listFromLocalSt(state, action: PayloadAction<NoteInterface[]>) {
       state.noteList = action.payload.map((note) => ({
         ...note,
@@ -124,7 +143,6 @@ const noteSlice = createSlice({
         state.sendedTitle = ""
         state.fullNoteId = ""
       }
-      // console.log(`fullNoteId=>>${state.fullNoteId},  itemId=>>${itemId}`)
       state.noteList = state.noteList.filter((note) => note.id !== itemId)
     },
     closeFormHandler(state) {
@@ -143,7 +161,6 @@ const noteSlice = createSlice({
         action.payload
       state.noteList = noteList.map((note) => {
         if (note.pineOrderNumber && note.pineOrderNumber !== 0) {
-          console.log(note.pineOrderNumber)
           if (currentNoteListLength > prevNoteListLength) {
             return { ...note, pineOrderNumber: note.pineOrderNumber + 1 }
           } else if (currentNoteListLength < prevNoteListLength) {
